@@ -11,7 +11,7 @@ public class Asignaciones {
 
     @ManyToOne
     @JoinColumn(name = "proyecto_id")
-    private Proyecto proyecto;
+    private Proyectos proyecto;
 
     @ManyToOne
     @JoinColumn(name = "empleado_id")
@@ -19,7 +19,7 @@ public class Asignaciones {
 
     @ManyToOne
     @JoinColumn(name = "tarea_id")
-    private Tarea tarea;
+    private Tareas tarea;
 
     private String rol;
 
@@ -33,11 +33,11 @@ public class Asignaciones {
         this.idAsignacion = idAsignacion;
     }
 
-    public Proyecto getProyecto() {
+    public Proyectos getProyecto() {
         return proyecto;
     }
 
-    public void setProyecto(Proyecto proyecto) {
+    public void setProyecto(Proyectos proyecto) {
         this.proyecto = proyecto;
     }
 
@@ -49,11 +49,11 @@ public class Asignaciones {
         this.empleado = empleado;
     }
 
-    public Tarea getTarea() {
+    public Tareas getTarea() {
         return tarea;
     }
 
-    public void setTarea(Tarea tarea) {
+    public void setTarea(Tareas tarea) {
         this.tarea = tarea;
     }
 
