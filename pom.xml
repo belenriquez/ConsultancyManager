@@ -73,20 +73,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>com.microsoft.azure</groupId>
-                <artifactId>azure-webapp-maven-plugin</artifactId>
-                <version>2.13.0</version>
-                <configuration>
-                    <resourceGroup>ConsultancyManager</resourceGroup>
-                    <appName>ConsultancyManager</appName>
-                    <runtime>
-                        <os>linux</os>
-                        <javaVersion>Java 17</javaVersion>
-                        <webContainer>Java SE</webContainer>
-                    </runtime>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
