@@ -9,33 +9,44 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tareas")
 public class TareasController {
 
-    @Autowired
-    private TareaService taskService;
+    private final TareaService taskService;
+    private final ProgresoTareaRepository progressRepository;
 
     @Autowired
-    private ProgresoTareaRepository progressRepository;
+    public TareasController(TareaService taskService, ProgresoTareaRepository progressRepository) {
+        this.taskService = taskService;
+        this.progressRepository = progressRepository;
+    }
 
     @PutMapping("/{taskId}/progress")
-    public ProgresoTarea updateTaskProgress(@PathVariable String taskId, @RequestBody ProgresoTarea progress) {
-        return progressRepository.save(progress);
+    public ResponseEntity<ProgresoTarea> updateTaskProgress(@PathVariable int taskId, @RequestBody ProgresoTarea progress) {
+        ProgresoTarea progresoActualizado = progressRepository.save(progress);
+        return new ResponseEntity<>(progresoActualizado, HttpStatus.OK);
     }
 
     @GetMapping("/{taskId}/progress")
-    public Optional<ProgresoTarea> getTaskProgress(@PathVariable String taskId) {
-        return progressRepository.findById(taskId);
+    public ResponseEntity<ProgresoTarea> getTaskProgress(@PathVariable int taskId) {
+        Optional<ProgresoTarea> progresoTarea = progressRepository.findById(taskId);
+        return progresoTarea.map(progreso -> new ResponseEntity<>(progreso, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Endpoint para crear una tarea
     @PostMapping
-    public ResponseEntity<Tareas> crearTarea(@RequestBody Tareas tarea) {
-        Tareas tareaCreada = taskService.crearTarea(tarea);
-        return new ResponseEntity<>(tareaCreada, HttpStatus.CREATED);
+    public ResponseEntity<?> crearTarea(@RequestBody Tareas tarea) {
+        try {
+            Tareas tareaCreada = taskService.crearTarea(tarea);
+            return new ResponseEntity<>(tareaCreada, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Endpoint para obtener una tarea por ID
@@ -47,6 +58,13 @@ public class TareasController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    // Endpoint para obtener todas las tareas
+    @GetMapping
+    public ResponseEntity<List<Tareas>> obtenerTodasTareas() {
+        List<Tareas> tareas = taskService.obtenerTodasTareas();
+        return new ResponseEntity<>(tareas, HttpStatus.OK);
     }
 
     // Endpoint para actualizar una tarea por ID

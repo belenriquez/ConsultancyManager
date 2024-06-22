@@ -12,9 +12,7 @@ public class ComentariosTareas {
     @Id
     private String comentarioId;
     private int tareaId;
-    private int empleadoId;
     private String comentario;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime fechaHora;
 
     // Getters y Setters
@@ -33,14 +31,6 @@ public class ComentariosTareas {
 
     public void setTareaId(int tareaId) {
         this.tareaId = tareaId;
-    }
-
-    public int getEmpleadoId() {
-        return empleadoId;
-    }
-
-    public void setEmpleadoId(int empleadoId) {
-        this.empleadoId = empleadoId;
     }
 
     public String getComentario() {

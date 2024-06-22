@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 @RedisHash("ProgresoTarea")
 public class ProgresoTarea implements Serializable {
     @Id
-    private String taskId;
+    private int taskId;
     private int progreso;
     private float horasTrabajadas;
     private LocalDateTime ultimaActualizacion;
 
-    public String getTaskId() {
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(String taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 

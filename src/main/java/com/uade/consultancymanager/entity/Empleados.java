@@ -1,29 +1,34 @@
 package com.uade.consultancymanager.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Empleados {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEmpleado;
+    @Column(name = "empleado_id")
+    private int empleadoId;
+
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
+
+    @Column(name = "apellido", nullable = false, length = 50)
     private String apellido;
+
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
+
+    @Column(name = "disponibilidad", columnDefinition = "VARCHAR(255)")
     private String disponibilidad;
 
-    // Getters y setters
 
-    public int getIdEmpleado() {
-        return idEmpleado;
+    public int getEmpleadoId() {
+        return empleadoId;
     }
 
-    public void setIdEmpleado(int idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setEmpleadoId(int empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
     public String getNombre() {

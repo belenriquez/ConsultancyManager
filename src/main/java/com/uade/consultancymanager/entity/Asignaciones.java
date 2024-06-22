@@ -7,54 +7,53 @@ public class Asignaciones {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAsignacion;
+    @Column(name = "asignacion_id")
+    private Long asignacionId;
 
-    @ManyToOne
-    @JoinColumn(name = "proyecto_id")
-    private Proyectos proyecto;
+    @Column(name = "proyecto_id", nullable = false)
+    private Long proyectoId;
 
-    @ManyToOne
-    @JoinColumn(name = "empleado_id")
-    private Empleados empleado;
+    @Column(name = "empleado_id", nullable = false)
+    private Long empleadoId;
 
-    @ManyToOne
-    @JoinColumn(name = "tarea_id")
-    private Tareas tarea;
+    @Column(name = "tarea_id")
+    private Long tareaId;
 
+    @Column(name = "rol", length = 50)
     private String rol;
 
     // Getters y setters
 
-    public int getIdAsignacion() {
-        return idAsignacion;
+    public Long getAsignacionId() {
+        return asignacionId;
     }
 
-    public void setIdAsignacion(int idAsignacion) {
-        this.idAsignacion = idAsignacion;
+    public void setAsignacionId(Long asignacionId) {
+        this.asignacionId = asignacionId;
     }
 
-    public Proyectos getProyecto() {
-        return proyecto;
+    public Long getProyectoId() {
+        return proyectoId;
     }
 
-    public void setProyecto(Proyectos proyecto) {
-        this.proyecto = proyecto;
+    public void setProyectoId(Long proyectoId) {
+        this.proyectoId = proyectoId;
     }
 
-    public Empleados getEmpleado() {
-        return empleado;
+    public Long getEmpleadoId() {
+        return empleadoId;
     }
 
-    public void setEmpleado(Empleados empleado) {
-        this.empleado = empleado;
+    public void setEmpleadoId(Long empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
-    public Tareas getTarea() {
-        return tarea;
+    public Long getTareaId() {
+        return tareaId;
     }
 
-    public void setTarea(Tareas tarea) {
-        this.tarea = tarea;
+    public void setTareaId(Long tareaId) {
+        this.tareaId = tareaId;
     }
 
     public String getRol() {

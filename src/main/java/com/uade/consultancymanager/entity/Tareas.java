@@ -1,9 +1,6 @@
 package com.uade.consultancymanager.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -12,34 +9,55 @@ public class Tareas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idTarea;
-    private int idProyecto;
+    @Column(name = "tarea_id")
+    private Long tareaId;
+
+    @Column(name = "proyecto_id", nullable = false)
+    private Long proyectoId;
+
+    @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(name = "asignado_a")
+    private Long asignadoA;
+
+    @Column(name = "fecha_inicio", nullable = false)
     private Date fechaInicio;
+
+    @Column(name = "fecha_fin")
     private Date fechaFin;
+
+    @Column(name = "estado", nullable = false, length = 50)
     private String estado;
-    private int progreso;
-    private int asignadoA;
+
+    @Column(name = "progreso")
+    private Integer progreso;
+
+    @Column(name = "prioridad", length = 50)
     private String prioridad;
-    private float horasEstimadas;
+
+    @Column(name = "horas_estimadas")
+    private Float horasEstimadas;
 
     // Getters y setters
 
-    public int getIdTarea() {
-        return idTarea;
+    public Long getTareaId() {
+        return tareaId;
     }
 
-    public void setIdTarea(int idTarea) {
-        this.idTarea = idTarea;
+    public void setTareaId(Long tareaId) {
+        this.tareaId = tareaId;
     }
 
-    public int getIdProyecto() {
-        return idProyecto;
+    public Long getProyectoId() {
+        return proyectoId;
     }
 
-    public void setIdProyecto(int idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setProyectoId(Long proyectoId) {
+        this.proyectoId = proyectoId;
     }
 
     public String getNombre() {
@@ -56,6 +74,14 @@ public class Tareas {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Long getAsignadoA() {
+        return asignadoA;
+    }
+
+    public void setAsignadoA(Long asignadoA) {
+        this.asignadoA = asignadoA;
     }
 
     public Date getFechaInicio() {
@@ -82,20 +108,12 @@ public class Tareas {
         this.estado = estado;
     }
 
-    public int getProgreso() {
+    public Integer getProgreso() {
         return progreso;
     }
 
-    public void setProgreso(int progreso) {
+    public void setProgreso(Integer progreso) {
         this.progreso = progreso;
-    }
-
-    public int getAsignadoA() {
-        return asignadoA;
-    }
-
-    public void setAsignadoA(int asignadoA) {
-        this.asignadoA = asignadoA;
     }
 
     public String getPrioridad() {
@@ -106,11 +124,11 @@ public class Tareas {
         this.prioridad = prioridad;
     }
 
-    public float getHorasEstimadas() {
+    public Float getHorasEstimadas() {
         return horasEstimadas;
     }
 
-    public void setHorasEstimadas(float horasEstimadas) {
+    public void setHorasEstimadas(Float horasEstimadas) {
         this.horasEstimadas = horasEstimadas;
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProyectoRepository extends JpaRepository<Proyectos, Integer> {
-    // Metodos de JPA (SQL Server) para acceder a proyectos en SQL Server
+public interface ProyectoRepository extends JpaRepository<Proyectos, Long> {
+    boolean existsByNombre(String nombre);
 }

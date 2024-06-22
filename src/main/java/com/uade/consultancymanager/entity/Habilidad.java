@@ -9,19 +9,18 @@ public class Habilidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "habilidad_id")
-    private int idHabilidad;
+    private int habilidadId;
 
-    @Column(name = "nombre_habilidad")
+    @Column(name = "nombre_habilidad", nullable = false, length = 100)
     private String nombreHabilidad;
 
-    // Getters y setters
 
-    public int getIdHabilidad() {
-        return idHabilidad;
+    public int getHabilidadId() {
+        return habilidadId;
     }
 
-    public void setIdHabilidad(int idHabilidad) {
-        this.idHabilidad = idHabilidad;
+    public void setHabilidadId(int habilidadId) {
+        this.habilidadId = habilidadId;
     }
 
     public String getNombreHabilidad() {

@@ -1,9 +1,6 @@
 package com.uade.consultancymanager.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -12,21 +9,31 @@ public class Proyectos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idProyecto;
+    @Column(name = "proyecto_id")
+    private int proyectoId;
+
+    @Column(name = "nombre", nullable = false, length = 255, unique = true)
     private String nombre;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
+
+    @Column(name = "fecha_inicio", nullable = false)
     private Date fechaInicio;
+
+    @Column(name = "fecha_fin")
     private Date fechaFin;
+
+    @Column(name = "estado", nullable = false, length = 50)
     private String estado;
 
-    // Getters y setters
 
-    public int getIdProyecto() {
-        return idProyecto;
+    public int getProyectoId() {
+        return proyectoId;
     }
 
-    public void setIdProyecto(int idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setProyectoId(int proyectoId) {
+        this.proyectoId = proyectoId;
     }
 
     public String getNombre() {

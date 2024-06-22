@@ -7,24 +7,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/proyectos")
 public class ProyectosController {
 
     @Autowired
-    private ProyectoService projectService;
+    private ProyectoService proyectoService;
 
     // Endpoint para crear un proyecto
     @PostMapping
-    public ResponseEntity<Proyectos> crearProyecto(@RequestBody Proyectos proyecto) {
-        Proyectos proyectoCreado = projectService.crearProyecto(proyecto);
-        return new ResponseEntity<>(proyectoCreado, HttpStatus.CREATED);
+    public ResponseEntity<?> crearProyecto(@RequestBody Proyectos proyecto) {
+        try {
+            Proyectos proyectoCreado = proyectoService.crearProyecto(proyecto);
+            return new ResponseEntity<>(proyectoCreado, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Endpoint para obtener un proyecto por ID
     @GetMapping("/{idProyecto}")
-    public ResponseEntity<Proyectos> obtenerProyectoPorId(@PathVariable int idProyecto) {
-        Proyectos proyecto = projectService.obtenerProyectoPorId(idProyecto);
+    public ResponseEntity<Proyectos> obtenerProyectoPorId(@PathVariable Long idProyecto) {
+        Proyectos proyecto = proyectoService.obtenerProyectoPorId(idProyecto);
         if (proyecto != null) {
             return new ResponseEntity<>(proyecto, HttpStatus.OK);
         } else {
@@ -32,10 +38,17 @@ public class ProyectosController {
         }
     }
 
+    // Endpoint para obtener todos los proyectos
+    @GetMapping
+    public ResponseEntity<List<Proyectos>> obtenerTodosProyectos() {
+        List<Proyectos> proyectos = proyectoService.obtenerTodosProyectos();
+        return new ResponseEntity<>(proyectos, HttpStatus.OK);
+    }
+
     // Endpoint para actualizar un proyecto por ID
     @PutMapping("/{idProyecto}")
-    public ResponseEntity<Proyectos> actualizarProyecto(@PathVariable int idProyecto, @RequestBody Proyectos proyecto) {
-        Proyectos proyectoActualizado = projectService.actualizarProyecto(idProyecto, proyecto);
+    public ResponseEntity<Proyectos> actualizarProyecto(@PathVariable Long idProyecto, @RequestBody Proyectos proyecto) {
+        Proyectos proyectoActualizado = proyectoService.actualizarProyecto(idProyecto, proyecto);
         if (proyectoActualizado != null) {
             return new ResponseEntity<>(proyectoActualizado, HttpStatus.OK);
         } else {
@@ -45,8 +58,8 @@ public class ProyectosController {
 
     // Endpoint para eliminar un proyecto por ID
     @DeleteMapping("/{idProyecto}")
-    public ResponseEntity<Void> eliminarProyecto(@PathVariable int idProyecto) {
-        boolean eliminado = projectService.eliminarProyecto(idProyecto);
+    public ResponseEntity<Void> eliminarProyecto(@PathVariable Long idProyecto) {
+        boolean eliminado = proyectoService.eliminarProyecto(idProyecto);
         if (eliminado) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

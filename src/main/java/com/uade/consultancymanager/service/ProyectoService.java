@@ -5,46 +5,64 @@ import com.uade.consultancymanager.repository.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class ProyectoService {
+
+    private final ProyectoRepository proyectoRepository;
+
     @Autowired
-    private ProyectoRepository projectRepository;
+    public ProyectoService(ProyectoRepository proyectoRepository) {
+        this.proyectoRepository = proyectoRepository;
+    }
 
     // Método para crear un proyecto
     public Proyectos crearProyecto(Proyectos proyecto) {
-        return projectRepository.save(proyecto);
+        // Validar si ya existe un proyecto con el mismo nombre
+        if (proyectoRepository.existsByNombre(proyecto.getNombre())) {
+            throw new IllegalArgumentException("Ya existe un proyecto con el mismo nombre.");
+        }
+        return proyectoRepository.save(proyecto);
+    }
+
+    // Método para obtener todos los proyectos
+    public List<Proyectos> obtenerTodosProyectos() {
+        return proyectoRepository.findAll();
     }
 
     // Método para obtener un proyecto por ID
-    public Proyectos obtenerProyectoPorId(int idProyecto) {
-        return projectRepository.findById(idProyecto).orElse(null);
+    public Proyectos obtenerProyectoPorId(Long idProyecto) {
+        Optional<Proyectos> proyecto = proyectoRepository.findById(idProyecto);
+        return proyecto.orElse(null);
     }
 
     // Método para actualizar un proyecto por ID
-    public Proyectos actualizarProyecto(int idProyecto, Proyectos proyectoActualizado) {
-        Proyectos proyectoExistente = projectRepository.findById(idProyecto).orElse(null);
-        if (proyectoExistente != null) {
+    public Proyectos actualizarProyecto(Long idProyecto, Proyectos proyectoActualizado) {
+        Optional<Proyectos> optionalProyecto = proyectoRepository.findById(idProyecto);
+        if (optionalProyecto.isPresent()) {
+            Proyectos proyectoExistente = optionalProyecto.get();
             proyectoExistente.setNombre(proyectoActualizado.getNombre());
             proyectoExistente.setDescripcion(proyectoActualizado.getDescripcion());
             proyectoExistente.setFechaInicio(proyectoActualizado.getFechaInicio());
             proyectoExistente.setFechaFin(proyectoActualizado.getFechaFin());
             proyectoExistente.setEstado(proyectoActualizado.getEstado());
-            return projectRepository.save(proyectoExistente);
+            return proyectoRepository.save(proyectoExistente);
         } else {
-            return null;
+            return null; // O manejar de otra forma si no se encuentra el proyecto
         }
     }
 
     // Método para eliminar un proyecto por ID
-    public boolean eliminarProyecto(int idProyecto) {
-        Proyectos proyectoExistente = projectRepository.findById(idProyecto).orElse(null);
-        if (proyectoExistente != null) {
-            projectRepository.delete(proyectoExistente);
+    public boolean eliminarProyecto(Long idProyecto) {
+        Optional<Proyectos> optionalProyecto = proyectoRepository.findById(idProyecto);
+        if (optionalProyecto.isPresent()) {
+            proyectoRepository.delete(optionalProyecto.get());
             return true;
         } else {
-            return false;
+            return false; // O manejar de otra forma si no se encuentra el proyecto
         }
     }
 }

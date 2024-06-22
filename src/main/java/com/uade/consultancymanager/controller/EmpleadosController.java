@@ -1,24 +1,36 @@
 package com.uade.consultancymanager.controller;
 
 import com.uade.consultancymanager.entity.Empleados;
+import com.uade.consultancymanager.entity.Habilidad;
 import com.uade.consultancymanager.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/empleados")
 public class EmpleadosController {
 
+    private final EmpleadoService employeeService;
+
     @Autowired
-    private EmpleadoService employeeService;
+    public EmpleadosController(EmpleadoService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     // Endpoint para crear un empleado
     @PostMapping
-    public ResponseEntity<Empleados> crearEmpleado(@RequestBody Empleados empleado) {
-        Empleados empleadoCreado = employeeService.crearEmpleado(empleado);
-        return new ResponseEntity<>(empleadoCreado, HttpStatus.CREATED);
+    public ResponseEntity<?> crearEmpleado(@RequestBody Empleados empleado) {
+        try {
+            Empleados empleadoCreado = employeeService.crearEmpleado(empleado);
+            return new ResponseEntity<>(empleadoCreado, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Endpoint para obtener un empleado por ID
@@ -30,6 +42,13 @@ public class EmpleadosController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    // Endpoint para obtener todos los empleados
+    @GetMapping
+    public ResponseEntity<List<Empleados>> obtenerTodosEmpleados() {
+        List<Empleados> empleados = employeeService.obtenerTodosEmpleados();
+        return new ResponseEntity<>(empleados, HttpStatus.OK);
     }
 
     // Endpoint para actualizar un empleado por ID
@@ -49,6 +68,17 @@ public class EmpleadosController {
         boolean eliminado = employeeService.eliminarEmpleado(idEmpleado);
         if (eliminado) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Endpoint para asignar habilidades a un empleado
+    @PostMapping("/{idEmpleado}/habilidades")
+    public ResponseEntity<Empleados> asignarHabilidades(@PathVariable int idEmpleado, @RequestParam List<Integer> idsHabilidades) {
+        Empleados empleado = employeeService.asignarHabilidades(idEmpleado, idsHabilidades);
+        if (empleado != null) {
+            return new ResponseEntity<>(empleado, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

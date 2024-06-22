@@ -7,12 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/asignaciones")
 public class AsignacionesController {
 
+    private final AsignacionService assignmentService;
+
     @Autowired
-    private AsignacionService assignmentService;
+    public AsignacionesController(AsignacionService assignmentService) {
+        this.assignmentService = assignmentService;
+    }
 
     // Endpoint para asignar un empleado a una tarea
     @PostMapping
@@ -27,6 +33,24 @@ public class AsignacionesController {
         Asignaciones asignaciones = assignmentService.obtenerAsignacionPorId(idAsignacion);
         if (asignaciones != null) {
             return new ResponseEntity<>(asignaciones, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Endpoint para obtener todas las asignaciones
+    @GetMapping
+    public ResponseEntity<List<Asignaciones>> obtenerTodasAsignaciones() {
+        List<Asignaciones> asignaciones = assignmentService.obtenerTodasAsignaciones();
+        return new ResponseEntity<>(asignaciones, HttpStatus.OK);
+    }
+
+    // Endpoint para actualizar una asignación por ID
+    @PutMapping("/{idAsignacion}")
+    public ResponseEntity<Asignaciones> actualizarAsignacion(@PathVariable int idAsignacion, @RequestBody Asignaciones asignaciones) {
+        Asignaciones asignacionesActualizada = assignmentService.actualizarAsignacion(idAsignacion, asignaciones);
+        if (asignacionesActualizada != null) {
+            return new ResponseEntity<>(asignacionesActualizada, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

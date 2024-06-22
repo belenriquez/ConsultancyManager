@@ -7,18 +7,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/habilidades")
 public class HabilidadesController {
 
+    private final HabilidadService habilidadService;
+
     @Autowired
-    private HabilidadService habilidadService;
+    public HabilidadesController(HabilidadService habilidadService) {
+        this.habilidadService = habilidadService;
+    }
 
     // Endpoint para crear una nueva habilidad
     @PostMapping
-    public ResponseEntity<Habilidad> crearHabilidad(@RequestBody Habilidad habilidad) {
-        Habilidad habilidadCreada = habilidadService.crearHabilidad(habilidad);
-        return new ResponseEntity<>(habilidadCreada, HttpStatus.CREATED);
+    public ResponseEntity<?> crearHabilidad(@RequestBody Habilidad habilidad) {
+        try {
+            Habilidad habilidadCreada = habilidadService.crearHabilidad(habilidad);
+            return new ResponseEntity<>(habilidadCreada, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Endpoint para obtener una habilidad por ID
@@ -27,6 +37,24 @@ public class HabilidadesController {
         Habilidad habilidad = habilidadService.obtenerHabilidadPorId(idHabilidad);
         if (habilidad != null) {
             return new ResponseEntity<>(habilidad, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Endpoint para obtener todas las habilidades
+    @GetMapping
+    public ResponseEntity<List<Habilidad>> obtenerTodasHabilidades() {
+        List<Habilidad> habilidades = habilidadService.obtenerTodasHabilidades();
+        return new ResponseEntity<>(habilidades, HttpStatus.OK);
+    }
+
+    // Endpoint para actualizar una habilidad por ID
+    @PutMapping("/{idHabilidad}")
+    public ResponseEntity<Habilidad> actualizarHabilidad(@PathVariable int idHabilidad, @RequestBody Habilidad habilidad) {
+        Habilidad habilidadActualizada = habilidadService.actualizarHabilidad(idHabilidad, habilidad);
+        if (habilidadActualizada != null) {
+            return new ResponseEntity<>(habilidadActualizada, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
