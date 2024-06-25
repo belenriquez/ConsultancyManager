@@ -11,17 +11,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmpleadoProyectosRepository extends JpaRepository<EmpleadoProyecto, Long> {
+public interface EmpleadoProyectosRepository extends JpaRepository<EmpleadoProyecto, Integer> {
 
-    @Query("SELECT ep.empleadoId FROM EmpleadoProyecto ep WHERE ep.proyectoId = :proyectoId")
-    List<Empleados> findEmpleadosByProyectoId(@Param("proyectoId") int proyectoId);
+    @Query("SELECT ep.empleado FROM EmpleadoProyecto ep WHERE ep.proyecto.proyectoId = :proyectoId")
+    List<Empleados> findEmpleadoProyectosByProyectoId(@Param("proyectoId") int proyectoId);
 
-    @Query("SELECT ep.proyectoId FROM EmpleadoProyecto ep WHERE ep.empleadoId = :empleadoId")
+    @Query("SELECT ep.proyecto FROM EmpleadoProyecto ep WHERE ep.empleado.empleadoId = :empleadoId")
     List<Proyectos> findProyectosByEmpleadoId(@Param("empleadoId") int empleadoId);
 
-    boolean existsByEmpleadoIdAndProyectoId(int empleadoId, int proyectoId);
+    boolean existsByEmpleadoAndProyecto(int empleadoId, int proyectoId);
 
-    List<EmpleadoProyecto> findByProyectoId(int proyectoId);
+    List<EmpleadoProyecto> findByProyecto(int proyectoId);
 
-    void deleteByEmpleadoIdAndProyectoId(int empleadoId, int proyectoId);
+    void deleteByEmpleadoAndProyecto(int empleadoId, int proyectoId);
 }

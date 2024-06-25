@@ -1,21 +1,23 @@
 package com.uade.consultancymanager.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "empleado_proyectos")
 public class EmpleadoProyecto {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    @Column(name = "proyecto_id", nullable = false)
-    private int proyectoId;
 
-    @Column(name = "empleado_id", nullable = false)
-    private int empleadoId;
+    @ManyToOne
+    @JoinColumn(name = "empleado_id")
+    private Empleados empleado;
+
+    @ManyToOne
+    @JoinColumn(name = "proyecto_id")
+    private Proyectos proyecto;
 
     public int getId() {
         return id;
@@ -25,19 +27,19 @@ public class EmpleadoProyecto {
         this.id = id;
     }
 
-    public int getEmpleadoId() {
-        return empleadoId;
+    public Proyectos getProyecto() {
+        return proyecto;
     }
 
-    public void setEmpleadoId(int empleadoId) {
-        this.empleadoId = empleadoId;
+    public void setProyecto(Proyectos proyecto) {
+        this.proyecto = proyecto;
     }
 
-    public int getProyectoId() {
-        return proyectoId;
+    public Empleados getEmpleado() {
+        return empleado;
     }
 
-    public void setProyectoId(int proyectoId) {
-        this.proyectoId = proyectoId;
+    public void setEmpleado(Empleados empleado) {
+        this.empleado = empleado;
     }
 }

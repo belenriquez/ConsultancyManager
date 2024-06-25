@@ -95,6 +95,6 @@ public class EmpleadoService {
 
     // Método para obtener todos los empleados asignados a un proyecto
     public List<Empleados> obtenerEmpleadosPorProyecto(int idProyecto) {
-        return empleadoProyectoRepository.findEmpleadosByProyectoId(idProyecto);
+        return empleadoProyectoRepository.findEmpleadoProyectosByProyectoId(idProyecto);
     }
 }

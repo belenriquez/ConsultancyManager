@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional
 public class AsignacionService {
@@ -28,7 +26,7 @@ public class AsignacionService {
         int proyectoId = asignacion.getProyectoId();
 
         // Verificar si el empleado está asignado al proyecto
-        boolean empleadoAsignado = empleadoProyectoRepository.existsByEmpleadoIdAndProyectoId(empleadoId, proyectoId);
+        boolean empleadoAsignado = empleadoProyectoRepository.existsByEmpleadoAndProyecto(empleadoId, proyectoId);
         if (!empleadoAsignado) {
             throw new IllegalArgumentException("El empleado no pertenece al proyecto especificado.");
         }

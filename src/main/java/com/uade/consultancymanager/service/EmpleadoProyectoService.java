@@ -19,19 +19,19 @@ public class EmpleadoProyectoService {
         EmpleadoProyecto empleadoProyecto = new EmpleadoProyecto();
 
         // Aquí puedes validar si la relación ya existe antes de crearla
-        empleadoProyecto.setEmpleadoId(empleadoId);
-        empleadoProyecto.setProyectoId(proyectoId);
+        empleadoProyecto.getEmpleado().setEmpleadoId(empleadoId);
+        empleadoProyecto.getProyecto().setProyectoId(proyectoId);
 
         return empleadoProyectoRepository.save(empleadoProyecto);
     }
 
     // Método para obtener la lista de empleados asignados a un proyecto
     public List<EmpleadoProyecto> obtenerEmpleadosPorProyecto(int proyectoId) {
-        return empleadoProyectoRepository.findByProyectoId(proyectoId);
+        return empleadoProyectoRepository.findByProyecto(proyectoId);
     }
 
     // Método para eliminar la asignación de un empleado a un proyecto
     public void eliminarAsignacion(int empleadoId, int proyectoId) {
-        empleadoProyectoRepository.deleteByEmpleadoIdAndProyectoId(empleadoId, proyectoId);
+        empleadoProyectoRepository.deleteByEmpleadoAndProyecto(empleadoId, proyectoId);
     }
 }
