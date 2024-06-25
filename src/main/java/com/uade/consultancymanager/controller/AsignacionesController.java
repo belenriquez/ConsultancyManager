@@ -38,12 +38,6 @@ public class AsignacionesController {
         }
     }
 
-    // Endpoint para obtener todas las asignaciones
-    @GetMapping
-    public ResponseEntity<List<Asignaciones>> obtenerTodasAsignaciones() {
-        List<Asignaciones> asignaciones = assignmentService.obtenerTodasAsignaciones();
-        return new ResponseEntity<>(asignaciones, HttpStatus.OK);
-    }
 
     // Endpoint para actualizar una asignación por ID
     @PutMapping("/{idAsignacion}")

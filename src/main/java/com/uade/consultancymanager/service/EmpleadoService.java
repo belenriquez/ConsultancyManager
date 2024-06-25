@@ -4,6 +4,7 @@ import com.uade.consultancymanager.entity.EmpleadoHabilidad;
 import com.uade.consultancymanager.entity.Empleados;
 import com.uade.consultancymanager.entity.Habilidad;
 import com.uade.consultancymanager.repository.EmpleadoHabilidadRepository;
+import com.uade.consultancymanager.repository.EmpleadoProyectosRepository;
 import com.uade.consultancymanager.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,13 @@ public class EmpleadoService {
 
     private final EmpleadoRepository employeeRepository;
     private final EmpleadoHabilidadRepository empleadoHabilidadRepository;
+    private final EmpleadoProyectosRepository empleadoProyectoRepository;
 
     @Autowired
-    public EmpleadoService(EmpleadoRepository employeeRepository, EmpleadoHabilidadRepository empleadoHabilidadRepository) {
+    public EmpleadoService(EmpleadoRepository employeeRepository, EmpleadoHabilidadRepository empleadoHabilidadRepository, EmpleadoProyectosRepository empleadoProyectoRepository) {
         this.employeeRepository = employeeRepository;
         this.empleadoHabilidadRepository = empleadoHabilidadRepository;
+        this.empleadoProyectoRepository = empleadoProyectoRepository;
     }
 
     // Método para crear un empleado
@@ -88,5 +91,10 @@ public class EmpleadoService {
             return employeeRepository.save(empleado);
         }
         return null;
+    }
+
+    // Método para obtener todos los empleados asignados a un proyecto
+    public List<Empleados> obtenerEmpleadosPorProyecto(int idProyecto) {
+        return empleadoProyectoRepository.findEmpleadosByProyectoId(idProyecto);
     }
 }

@@ -25,7 +25,7 @@ public class TareaService {
 
     // Método para crear una tarea
     public Tareas crearTarea(Tareas tarea) {
-        if (tarea.getProyectoId() == null || !proyectoRepository.existsById(tarea.getProyectoId())) {
+        if (tarea.getProyectoId() == 0 || !proyectoRepository.existsById(tarea.getProyectoId())) {
             throw new IllegalArgumentException("Proyecto no válido o no encontrado");
         }
         return taskRepository.save(tarea);
@@ -51,7 +51,6 @@ public class TareaService {
             tareaExistente.setFechaFin(tareaActualizada.getFechaFin());
             tareaExistente.setEstado(tareaActualizada.getEstado());
             tareaExistente.setProgreso(tareaActualizada.getProgreso());
-            tareaExistente.setAsignadoA(tareaActualizada.getAsignadoA());
             tareaExistente.setPrioridad(tareaActualizada.getPrioridad());
             tareaExistente.setHorasEstimadas(tareaActualizada.getHorasEstimadas());
             return taskRepository.save(tareaExistente);
@@ -69,5 +68,10 @@ public class TareaService {
         } else {
             return false;
         }
+    }
+
+    // Método para obtener tareas por proyecto
+    public List<Tareas> obtenerTareasPorProyecto(int idProyecto) {
+        return taskRepository.findByProyectoId(idProyecto);
     }
 }

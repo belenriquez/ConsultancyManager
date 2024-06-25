@@ -13,16 +13,13 @@ public class Tareas {
     private Long tareaId;
 
     @Column(name = "proyecto_id", nullable = false)
-    private Long proyectoId;
+    private int proyectoId;
 
     @Column(name = "nombre", nullable = false, length = 255)
     private String nombre;
 
     @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
-
-    @Column(name = "asignado_a")
-    private Long asignadoA;
 
     @Column(name = "fecha_inicio", nullable = false)
     private Date fechaInicio;
@@ -42,7 +39,6 @@ public class Tareas {
     @Column(name = "horas_estimadas")
     private Float horasEstimadas;
 
-    // Getters y setters
 
     public Long getTareaId() {
         return tareaId;
@@ -52,11 +48,11 @@ public class Tareas {
         this.tareaId = tareaId;
     }
 
-    public Long getProyectoId() {
+    public int getProyectoId() {
         return proyectoId;
     }
 
-    public void setProyectoId(Long proyectoId) {
+    public void setProyectoId(int proyectoId) {
         this.proyectoId = proyectoId;
     }
 
@@ -76,13 +72,6 @@ public class Tareas {
         this.descripcion = descripcion;
     }
 
-    public Long getAsignadoA() {
-        return asignadoA;
-    }
-
-    public void setAsignadoA(Long asignadoA) {
-        this.asignadoA = asignadoA;
-    }
 
     public Date getFechaInicio() {
         return fechaInicio;

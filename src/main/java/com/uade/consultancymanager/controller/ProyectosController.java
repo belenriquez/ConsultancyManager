@@ -29,7 +29,7 @@ public class ProyectosController {
 
     // Endpoint para obtener un proyecto por ID
     @GetMapping("/{idProyecto}")
-    public ResponseEntity<Proyectos> obtenerProyectoPorId(@PathVariable Long idProyecto) {
+    public ResponseEntity<Proyectos> obtenerProyectoPorId(@PathVariable int idProyecto) {
         Proyectos proyecto = proyectoService.obtenerProyectoPorId(idProyecto);
         if (proyecto != null) {
             return new ResponseEntity<>(proyecto, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class ProyectosController {
 
     // Endpoint para actualizar un proyecto por ID
     @PutMapping("/{idProyecto}")
-    public ResponseEntity<Proyectos> actualizarProyecto(@PathVariable Long idProyecto, @RequestBody Proyectos proyecto) {
+    public ResponseEntity<Proyectos> actualizarProyecto(@PathVariable int idProyecto, @RequestBody Proyectos proyecto) {
         Proyectos proyectoActualizado = proyectoService.actualizarProyecto(idProyecto, proyecto);
         if (proyectoActualizado != null) {
             return new ResponseEntity<>(proyectoActualizado, HttpStatus.OK);
@@ -58,7 +58,7 @@ public class ProyectosController {
 
     // Endpoint para eliminar un proyecto por ID
     @DeleteMapping("/{idProyecto}")
-    public ResponseEntity<Void> eliminarProyecto(@PathVariable Long idProyecto) {
+    public ResponseEntity<Void> eliminarProyecto(@PathVariable int idProyecto) {
         boolean eliminado = proyectoService.eliminarProyecto(idProyecto);
         if (eliminado) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -66,4 +66,11 @@ public class ProyectosController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/empleado/{idEmpleado}")
+    public ResponseEntity<List<Proyectos>> obtenerProyectosPorEmpleado(@PathVariable int idEmpleado) {
+        List<Proyectos> proyectos = proyectoService.obtenerProyectosPorEmpleado(idEmpleado);
+        return new ResponseEntity<>(proyectos, HttpStatus.OK);
+    }
+
 }

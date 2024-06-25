@@ -88,4 +88,11 @@ public class TareasController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    // Endpoint para obtener tareas por proyecto
+    @GetMapping("/proyecto/{idProyecto}")
+    public ResponseEntity<List<Tareas>> obtenerTareasPorProyecto(@PathVariable int idProyecto) {
+        List<Tareas> tareas = taskService.obtenerTareasPorProyecto(idProyecto);
+        return new ResponseEntity<>(tareas, HttpStatus.OK);
+    }
 }

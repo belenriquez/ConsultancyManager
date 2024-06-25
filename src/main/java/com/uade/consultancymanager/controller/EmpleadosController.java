@@ -83,4 +83,15 @@ public class EmpleadosController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    // Endpoint para obtener todos los empleados asignados a un proyecto
+    @GetMapping("/proyectos/{idProyecto}")
+    public ResponseEntity<List<Empleados>> obtenerEmpleadosPorProyecto(@PathVariable int idProyecto) {
+        List<Empleados> empleados = employeeService.obtenerEmpleadosPorProyecto(idProyecto);
+        if (!empleados.isEmpty()) {
+            return new ResponseEntity<>(empleados, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

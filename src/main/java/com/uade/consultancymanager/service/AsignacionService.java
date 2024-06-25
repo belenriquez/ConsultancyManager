@@ -2,6 +2,7 @@ package com.uade.consultancymanager.service;
 
 import com.uade.consultancymanager.entity.Asignaciones;
 import com.uade.consultancymanager.repository.AsignacionRepository;
+import com.uade.consultancymanager.repository.EmpleadoProyectosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,25 +14,31 @@ import java.util.List;
 public class AsignacionService {
 
     private final AsignacionRepository assignmentRepository;
+    private final EmpleadoProyectosRepository empleadoProyectoRepository;
 
     @Autowired
-    public AsignacionService(AsignacionRepository assignmentRepository) {
+    public AsignacionService(AsignacionRepository assignmentRepository, EmpleadoProyectosRepository empleadoProyectoRepository) {
         this.assignmentRepository = assignmentRepository;
+        this.empleadoProyectoRepository = empleadoProyectoRepository;
     }
 
     // Método para asignar un empleado a una tarea
-    public Asignaciones asignarEmpleadoATarea(Asignaciones asignaciones) {
-        return assignmentRepository.save(asignaciones);
+    public Asignaciones asignarEmpleadoATarea(Asignaciones asignacion) {
+        int empleadoId = asignacion.getEmpleadoId();
+        int proyectoId = asignacion.getProyectoId();
+
+        // Verificar si el empleado está asignado al proyecto
+        boolean empleadoAsignado = empleadoProyectoRepository.existsByEmpleadoIdAndProyectoId(empleadoId, proyectoId);
+        if (!empleadoAsignado) {
+            throw new IllegalArgumentException("El empleado no pertenece al proyecto especificado.");
+        }
+
+        return assignmentRepository.save(asignacion);
     }
 
     // Método para obtener una asignación por ID
     public Asignaciones obtenerAsignacionPorId(int idAsignacion) {
         return assignmentRepository.findById(idAsignacion).orElse(null);
-    }
-
-    // Método para obtener todas las asignaciones
-    public List<Asignaciones> obtenerTodasAsignaciones() {
-        return assignmentRepository.findAll();
     }
 
     // Método para actualizar una asignación por ID

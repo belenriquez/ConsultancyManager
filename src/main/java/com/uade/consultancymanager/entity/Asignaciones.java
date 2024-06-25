@@ -8,52 +8,36 @@ public class Asignaciones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "asignacion_id")
-    private Long asignacionId;
+    private int asignacionId;
 
     @Column(name = "proyecto_id", nullable = false)
-    private Long proyectoId;
+    private int proyectoId;
 
     @Column(name = "empleado_id", nullable = false)
-    private Long empleadoId;
+    private int empleadoId;
 
-    @Column(name = "tarea_id")
-    private Long tareaId;
+    @Column(name = "tarea_id", nullable = false)
+    private int tareaId;
 
     @Column(name = "rol", length = 50)
     private String rol;
 
-    // Getters y setters
 
-    public Long getAsignacionId() {
-        return asignacionId;
-    }
 
-    public void setAsignacionId(Long asignacionId) {
-        this.asignacionId = asignacionId;
-    }
-
-    public Long getProyectoId() {
+    public int getProyectoId() {
         return proyectoId;
     }
 
-    public void setProyectoId(Long proyectoId) {
+    public void setProyectoId(int proyectoId) {
         this.proyectoId = proyectoId;
     }
 
-    public Long getEmpleadoId() {
+    public int getEmpleadoId() {
         return empleadoId;
     }
 
-    public void setEmpleadoId(Long empleadoId) {
+    public void setEmpleadoId(int empleadoId) {
         this.empleadoId = empleadoId;
-    }
-
-    public Long getTareaId() {
-        return tareaId;
-    }
-
-    public void setTareaId(Long tareaId) {
-        this.tareaId = tareaId;
     }
 
     public String getRol() {
@@ -62,5 +46,21 @@ public class Asignaciones {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public int getAsignacionId() {
+        return asignacionId;
+    }
+
+    public void setAsignacionId(int asignacionId) {
+        this.asignacionId = asignacionId;
+    }
+
+    public int getTareaId() {
+        return tareaId;
+    }
+
+    public void setTareaId(int tareaId) {
+        this.tareaId = tareaId;
     }
 }
